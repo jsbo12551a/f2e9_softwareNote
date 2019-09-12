@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>軟體筆記</title>
+    <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+    <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet" />
+  </head>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 微軟正黑體;
+    }
+    html,
+    body {
+      height: 100%;
+    }
+    .con {
+      float: left;
+      height: 100%;
+    }
+    .side {
+      width: 20%;
+    }
+    #example {
+      width: 80%;
+      background-color: 999px;
+    }
+    .ql-toolbar {
+      display: inline-block;
+      width: 80%;
+      background-color: 999px;
+    }
+    .side {
+      padding: 10px;
+      border-right: 1px solid #ccc;
+    }
+    .side header {
+      padding: 10px 0;
+    }
+    .side header button {
+      padding: 10px;
+      border-radius: 10px;
+      border: 0;
+      background-color: rgb(4, 83, 50);
+      color: #ffffff;
+      cursor: pointer;
+    }
+    .inbox {
+      border-top: 1px solid #ccc;
+      padding: 5px 0;
+      position: relative;
+    }
+    .inbox p {
+      display: inline-block;
+    }
+    .inbox i {
+      position: absolute;
+      right: 10px;
+      cursor: pointer;
+    }
+    .list_item a {
+      color: black;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      border-top: 1px solid #ccc;
+      padding: 20px 0;
+    }
+
+    .list_item a p {
+      display: inline-block;
+    }
+    .list_item a i {
+      position: absolute;
+      right: 10px;
+    }
+    .newName {
+      z-index: 99;
+      position: absolute;
+      top: 100px;
+      left: 200px;
+      border: 2px solid #000;
+      background-color: #ccc;
+      border-radius: 3px;
+      padding: 30px;
+      display: none;
+    }
+
+    .newName input {
+      padding: 5px;
+      border-radius: 5px;
+      border: 0;
+    }
+    header .newName button {
+      margin: 0 10px;
+      background-color: #555;
+      cursor: pointer;
+    }
+  </style>
+  <body>
+    <article class="side con">
+      <header>
+        <button id="newItem">New</button>
+        <div class="newName">
+          <input type="text" id="itemName" />
+          <button id="okName">確定</button>
+        </div>
+      </header>
+
+      <div class="inbox">
+        <p>INBOX</p>
+        <i class="far fa-star"></i>
+      </div>
+      <div class="list_item">
+        <a href="#">
+          <p>範例</p>
+          <i class="far fa-star"></i>
+        </a>
+      </div>
+    </article>
+    <div id="example" class="con">
+      <p>哈囉~~~</p>
+    </div>
+    <script src="https://kit.fontawesome.com/5cead19c2c.js"></script>
+    <!-- Main Quill library -->
+    <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script>
+      var quill = new Quill('#example', {
+        theme: 'snow', // 模板
+        modules: {
+          toolbar: [
+            // 工具列列表[註1]
+            ['bold', 'italic', 'underline', 'strike'], // 粗體、斜體、底線和刪節線
+            ['blockquote', 'code-block'], // 區塊、程式區塊
+            [{ header: 1 }, { header: 2 }], // 標題1、標題2
+            [{ list: 'ordered' }, { list: 'bullet' }], // 清單
+            [{ script: 'sub' }, { script: 'super' }], // 上標、下標
+            [{ indent: '-1' }, { indent: '+1' }], // 縮排
+            [{ direction: 'rtl' }], // 文字方向
+            [{ size: ['small', false, 'large', 'huge'] }], // 文字大小
+            [{ header: [1, 2, 3, 4, 5, 6, false] }], // 標題
+            [{ color: [] }, { background: [] }], // 顏色
+            [{ font: [] }], // 字體
+            [{ align: [] }], // 文字方向
+            ['clean'] // 清除文字格是
+          ]
+        }
+      });
+
+      const newItem = document.querySelector('#newItem');
+      let show = false;
+      newItem.addEventListener('click', function() {
+        const addName = document.querySelector('.newName');
+        const okName = document.querySelector('#okName');
+        const item = document.querySelector('.list_item');
+        let name = '';
+        addName.style.display = 'block';
+        show = true;
+        okName.addEventListener('click', function() {
+          let itemName = document.querySelector('#itemName');
+          name = itemName.value;
+          let a = document.createElement('a');
+          let p = document.createElement('p');
+          let i = document.createElement('i');
+          p.innerHTML = name;
+          a.setAttribute('href', '#');
+          a.appendChild(p);
+          i.setAttribute('class', 'far fa-star');
+          a.appendChild(i);
+          item.appendChild(a);
+          addName.style.display = 'none';
+          show = false;
+        });
+      });
+    </script>
+  </body>
+</html>
